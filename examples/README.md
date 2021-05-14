@@ -1,0 +1,1 @@
+This example creates 2 resource groups with their names, locations and tags and applies global tags too.
