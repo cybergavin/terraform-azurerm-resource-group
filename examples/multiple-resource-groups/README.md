@@ -2,9 +2,21 @@ This example creates 2 resource groups with their names, locations and tags and 
 
 ### main.tf
 ```
+terraform {
+  required_version = ">= 0.15"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.58.0"
+    }
+  }
+}
+provider "azurerm" {
+  features {}
+}
 module "resource-group" {
   source  = "cybergavin/resource-group/azurerm"
-  version = "2.1.0"
+  version = "2.2.0"
   resource_groups = var.resource_groups
   global_tags     = var.global_tags
 }
@@ -43,4 +55,40 @@ resource_groups = {
       CostCenter = "C9999",
       Description = "Windows Infrastructure"} }
 }
+```
+---
+### terraform.plan
+```
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.resource-group.azurerm_resource_group.rg["my-linux-rg"] will be created
+  + resource "azurerm_resource_group" "rg" {
+      + id       = (known after apply)
+      + location = "canadacentral"
+      + name     = "my-linux-rg"
+      + tags     = {
+          + "CostCenter"  = "C8888"
+          + "Description" = "Linux Infrastructure"
+          + "Owner"       = "cybergavin"
+          + "Provisioner" = "Terraform"
+        }
+    }
+
+  # module.resource-group.azurerm_resource_group.rg["my-windows-rg"] will be created
+  + resource "azurerm_resource_group" "rg" {
+      + id       = (known after apply)
+      + location = "canadacentral"
+      + name     = "my-windows-rg"
+      + tags     = {
+          + "CostCenter"  = "C9999"
+          + "Description" = "Windows Infrastructure"
+          + "Owner"       = "cybergavin"
+          + "Provisioner" = "Terraform"
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
 ```
